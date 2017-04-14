@@ -1,0 +1,91 @@
+<html>
+    <head>
+        <style>
+        html,
+        body,
+        #map {
+          height: 100%;
+          width: 100%;
+          margin: 0px;
+          padding: 0px
+        }
+        </style>
+        
+    </head>
+    <body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script src="http://requirejs.org/docs/release/2.3.3/minified/require.js"></script>
+
+        <script type="text/javascript" >
+/* global google */
+/* global $ */
+/* global require */
+var map;
+var infowindow = new google.maps.InfoWindow();
+
+function initialize() {
+
+ 
+// var json1 = require('./feed.json'); 
+ 
+ var json = (function() {
+        var json = null;
+        $.ajax({
+            'async': false,
+            'global': false,
+            'url': "./feed.json",
+            'dataType': "json",
+            'success': function (data) {
+                json = data;
+            }
+        });
+        return json;
+    })();
+
+  //  $.getJSON(json, function(json1) {
+
+ var mapProp = {
+    center: new google.maps.LatLng(-33.7746, 151.0788), //LLANDRINDOD WELLS
+    zoom: 13,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+  map = new google.maps.Map(document.getElementById("map"), mapProp);
+
+
+  $.each(json, function(key, data) {
+
+    var latLng = new google.maps.LatLng(data.entity.vehicle.position.latitude, data.entity.vehicle.position.longitude);
+
+    var marker = new google.maps.Marker({
+      position: latLng,
+      map: map,
+      // icon: icon,
+      title: data.entity.id
+    });
+
+    var details = ".";
+
+    bindInfoWindow(marker, map, infowindow, details);
+
+    //    });
+
+  });
+
+}
+
+function bindInfoWindow(marker, map, infowindow, strDescription) {
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.setContent(strDescription);
+    infowindow.open(map, marker);
+  });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+        </script>
+        <div id="map" style="border: 2px solid #3872ac;"></div>
+
+    </body>
+</html>

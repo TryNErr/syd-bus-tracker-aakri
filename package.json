@@ -1,0 +1,14 @@
+{
+  "name": "busproj",
+  "version": "1.0.0",
+  "description": "Bus Project",
+  "main": "test2.1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Bus"
+  ],
+  "author": "hj",
+  "license": "ISC"
+}
