@@ -13,6 +13,7 @@
   "author": "hj",
   "license": "ISC",
   "dependencies": {
-    "gtfs-realtime-bindings": "0.0.4"
+    "gtfs-realtime-bindings": "0.0.4",
+    "request": "^2.81.0"
   }
 }
