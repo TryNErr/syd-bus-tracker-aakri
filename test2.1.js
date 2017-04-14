@@ -23,16 +23,16 @@ var request = require('request');
 //    var transit = protobuf.loadProtoFile("gtfs-realtime.proto").build("transit_realtime");
 //    var feed = transit.FeedMessage.decode(body);
     //console.log(feed);
-      console.log(feed.entity[2]);
+//      console.log(feed.entity[2]);
       var results = [];
       for (var i=0; i < feed.entity.length; i++) {
-        if (feed.entity[i].id.indexOf('M54') > 0)
-        {
+//        if (feed.entity[i].id.indexOf('M54') > 0)
+//        {
           //console.log(feed.entity[i].id);
           console.log(feed.entity[i].vehicle.position.latitude);
           console.log(feed.entity[i].vehicle.position.longitude);
           results.push({entity: feed.entity[i] })
-        }
+//        }
       }
 //    fs.writeFile("feed.txt", JSON.stringify(feed), function(err) {
       fs.writeFile("./html/feed.json", JSON.stringify(results), function(err) {
