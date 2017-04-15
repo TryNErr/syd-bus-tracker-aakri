@@ -5,7 +5,7 @@
   "main": "test2.1.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm install && node test2.1.js"
+    "start": "npm install && node test2.1.js "
   },
   "keywords": [
     "Bus"
@@ -13,7 +13,9 @@
   "author": "hj",
   "license": "ISC",
   "dependencies": {
+    "fs": "0.0.1-security",
     "gtfs-realtime-bindings": "0.0.4",
+    "http": "0.0.0",
     "request": "^2.81.0"
   }
 }
