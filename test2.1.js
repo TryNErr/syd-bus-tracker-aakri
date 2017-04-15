@@ -18,7 +18,7 @@ var request = require('request');
     // 1: If I use this line, I get "Illegal argument: Not a valid base64 encoded string"
 //    var feed = gtfsrb.FeedMessage.decode(body);
     // 2: If I use this line, I get "Illegal wire type of unknown field 1242 in Message"
-    var feed = ''; 
+    var feed; 
   console.log("1");
     // function retryForever(fn) {
     //   console.log("1.0");
@@ -38,9 +38,9 @@ var request = require('request');
       fn();
       console.log("Feed Generated");
     }    catch (error){
-      feed = '';
+      feed = null;
       console.log("Feed Errored and in retry mode" + error);
-      return setTimeout(fn, 2000);
+      return setTimeout(fn, 100);
     }
     // retryForever(fn);
   console.log("2");
@@ -51,7 +51,7 @@ var request = require('request');
 //      console.log(feed.entity[2]);
       var results = [];
 console.log("3"); 
-      if (feed != '') {    
+      if (feed) {    
 console.log("4");        
         for (var i=0; i < feed.entity.length; i++) {
           if (feed.entity[i].id.indexOf('M54') > 0)
