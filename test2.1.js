@@ -83,7 +83,7 @@ http.createServer(function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/html'});
     index = fs.readFileSync("./" + req.url)
     res.end(index);  
-    if (req.url.indexOf("Bus") >0){
+    if (req.url.indexOf("bus") >0){
     getCall();
     }
     //setInterval(getCall, 20000);
