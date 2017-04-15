@@ -78,10 +78,10 @@ var http = require('http');
 var fs = require('fs');
 var index = '';
 http.createServer(function (req, res) {
-    getCall();
+    //getCall();
     console.log(req.url);
     res.writeHead(200, {'Content-Type': 'text/html'});
     index = fs.readFileSync("./" + req.url)
     res.end(index);  
-    //setInterval(getCall, 20000);
+    setInterval(getCall, 20000);
 }).listen(process.env.PORT, process.env.IP);
