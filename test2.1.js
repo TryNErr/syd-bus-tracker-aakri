@@ -39,7 +39,7 @@ var request = require('request');
       console.log("Feed Generated");
     }    catch (error){
       feed = '';
-      console.log("Feed Errored and in retry mode");
+      console.log("Feed Errored and in retry mode" + error);
       return setTimeout(fn, 2000);
     }
     // retryForever(fn);
@@ -50,7 +50,7 @@ var request = require('request');
     //console.log(feed);
 //      console.log(feed.entity[2]);
       var results = [];
-console.log("3");      
+console.log("3"); 
       if (feed != '') {    
 console.log("4");        
         for (var i=0; i < feed.entity.length; i++) {
