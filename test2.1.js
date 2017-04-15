@@ -64,7 +64,7 @@ console.log("4");
         }
 console.log("5");        
   //    fs.writeFile("feed.txt", JSON.stringify(feed), function(err) {
-        fs.writeFile("./html/feed.json", JSON.stringify(results), function(err) {
+        fs.writeFile("./feed.json", JSON.stringify(results), function(err) {
             console.log("Writing to file");
             if(err) {
                 return console.log(err);
@@ -81,7 +81,7 @@ http.createServer(function (req, res) {
     getCall();
     console.log(req.url);
     res.writeHead(200, {'Content-Type': 'text/html'});
-    index = fs.readFileSync('../'+ req.url)
+    index = fs.readFileSync("./" + req.url)
     res.end(index);  
     //setInterval(getCall, 20000);
 }).listen(process.env.PORT, process.env.IP);
