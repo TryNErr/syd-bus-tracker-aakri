@@ -10,17 +10,19 @@
           padding: 0px
         }
         </style>
-    <meta http-equiv="refresh" content="15" >        
+    <meta http-equiv="refresh" content="40" >        
     </head>
     <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWwHZikJsXbDwfx2AiimGeeQvbzEJwX1Q"></script>
 <script src="http://requirejs.org/docs/release/2.3.3/minified/require.js"></script>
+<script src="./fs.js"></script>
 
         <script type="text/javascript" >
 /* global google */
 /* global $ */
 /* global require */
+/* global fs */
 var map;
 var infowindow = new google.maps.InfoWindow();
 
@@ -42,6 +44,21 @@ function initialize() {
         });
         return json;
     })();
+
+ var json1 = (function() {
+        var json = null;
+        $.ajax({
+            'async': false,
+            'global': false,
+            'url': "./feed1.json",
+            'dataType': "json",
+            'success': function (data) {
+                json = data;
+            }
+        });
+        return json;
+    })();
+
 
   //  $.getJSON(json, function(json1) {
 
@@ -67,24 +84,44 @@ function initialize() {
 
     var details = ".";
     
-    var flightPlanCoordinates = [
-          {lat: 37.772, lng: -122.214},
-          {lat: 21.291, lng: -157.821},
-          {lat: -18.142, lng: 178.431},
-          {lat: -27.467, lng: 153.027}
-        ];
-    var flightPath = new google.maps.Polyline({
-          path: flightPlanCoordinates,
-          geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-        });
-     flightPath.setMap(map);
+    // var flightPlanCoordinates = [
+    //       {lat: 37.772, lng: -122.214},
+    //       {lat: 21.291, lng: -157.821},
+    //       {lat: -18.142, lng: 178.431},
+    //       {lat: -27.467, lng: 153.027}
+    //     ];
 
-    bindInfoWindow(marker, map, infowindow, details);
+        
+    // var flightPlanCoordinates = json1[0].ent[0].lat;        
+    // var flightPath = new google.maps.Polyline({
+    //       path: flightPlanCoordinates,
+    //       geodesic: true,
+    //       strokeColor: '#FF0000',
+    //       strokeOpacity: 1.0,
+    //       strokeWeight: 2
+    //     });
+    //  flightPath.setMap(map);
+
+    // bindInfoWindow(marker, map, infowindow, details);
 
     //    });
+  var str = ['red','blue','black','orange','brown','yellow','pink','gray'];
+  $.each(json1, function(key1, data1) {
+    if (data.entity.id == data1.ent[0].entity) {  
+        var flightPlanCoordinates = data1.ent[0].lat;        
+        var flightPath = new google.maps.Polyline({
+              path: flightPlanCoordinates,
+              geodesic: true,
+              strokeColor: str[key1%8],
+              strokeOpacity: 1.0,
+              strokeWeight: 2
+            });
+         flightPath.setMap(map);
+    
+        bindInfoWindow(marker, map, infowindow, details);
+    }
+  });
+
 
   });
 
@@ -101,7 +138,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
         </script>
         
-        <a href="bus.1.html">Click here to change Route Number</a>
+        <a href="bus.1.html">Dont Click here to change Route Number</a>
         
         <div id="map" style="border: 2px solid #3872ac;"></div>
 

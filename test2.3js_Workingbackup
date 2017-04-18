@@ -52,39 +52,16 @@ var request = require('request');
     //console.log(feed);
 //      console.log(feed.entity[2]);
       var results = [];
-      var results1 = JSON.parse(require('fs').readFileSync('./feed1.json', 'utf-8'));
-      
-console.log( results1.length + " 3" ); 
+console.log("3"); 
       if (feed) {    
 console.log("4");        
         for (var i=0; i < feed.entity.length; i++) {
           if (feed.entity[i].id.indexOf("_" +route + "_") > 0)
-//            if (feed.entity[i].id.indexOf(route) > 0)
           {
             //console.log(feed.entity[i].id);
             console.log("Entity id=" + i + "    Lat=" +feed.entity[i].vehicle.position.latitude);
             console.log("Entity id=" + i + "    Lon" +feed.entity[i].vehicle.position.longitude);
-            results.push({entity: feed.entity[i] });
-            var found = false;
-            for(var j=0; j<results1.length ;j++){
-              console.log("Length " + results1.length + "   entity" + JSON.stringify(results1));
-              console.log("results1[j].entity " + results1[j].ent.entity + "   feed.entity[i].id" + feed.entity[i].id+ "   results1[j].entity === feed.entity[i].id " + (results1[j].ent.entity === feed.entity[i].id) + "results1[j].entity == feed.entity[i].id " + (results1[j].ent.entity == feed.entity[i].id) );
-              
-              if (results1[j].ent[0].lat.length > 10) {
-                results1[j].ent[0].lat.splice(0,7);
-              }
-              
-              if (results1 !== undefined && results1[j].ent[0].entity === feed.entity[i].id) 
-                {
-                  results1[j].ent[0].lat.push({lat: feed.entity[i].vehicle.position.latitude, lng:feed.entity[i].vehicle.position.longitude });
-                  var found = true;  
-                }
-              }
-            if (!found){
-                results1.push({ent: [{entity: feed.entity[i].id, lat: []}]});
-                //results1.entity[results1.length].push({lat: 001});
-            }
-            
+            results.push({entity: feed.entity[i] })
           }
         }
 console.log("5");        
@@ -95,13 +72,6 @@ console.log("5");
                 return console.log(err);
             }
         });
-        fs.writeFile("./feed1.json", JSON.stringify(results1), function(err) {
-            console.log("Writing1 to file");
-            if(err) {
-                return console.log(err);
-            }
-        });
-
       }
 })
 };
