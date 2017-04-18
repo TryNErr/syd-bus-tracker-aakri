@@ -3,6 +3,9 @@ var protobuf = require('protobufjs');
 var fs = require('fs');
 
 var route ='M54';
+var route1 ='546';
+var route2 ='630';
+
 
 var request = require('request');
   var url = 'https://api.transport.nsw.gov.au/v1/gtfs/vehiclepos/buses';
@@ -58,7 +61,7 @@ console.log( results1.length + " 3" );
       if (feed) {    
 console.log("4");        
         for (var i=0; i < feed.entity.length; i++) {
-          if (feed.entity[i].id.indexOf("_" +route + "_") > 0)
+          if (feed.entity[i].id.indexOf("_" +route + "_") > 0 || feed.entity[i].id.indexOf("_" +route1 + "_") > 0 || feed.entity[i].id.indexOf("_" +route2 + "_") > 0)
 //            if (feed.entity[i].id.indexOf(route) > 0)
           {
             //console.log(feed.entity[i].id);
