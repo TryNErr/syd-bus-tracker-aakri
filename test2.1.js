@@ -77,14 +77,14 @@ console.log("4");
               
               if (results1[j].ent[0].lat.length > 10) {
                 results1[j].ent[0].lat.splice(0,7);
-                console.log("Speed Break");
+                //console.log("Speed Break");
               }
              // console.log("123321" + results1[j].ent[0].entity + "....." + feed.entity[i].id);
               if (results1 !== undefined && results1[j].ent[0].entity === feed.entity[i].id) 
                 {
                   results1[j].ent[0].lat.push({lat: feed.entity[i].vehicle.position.latitude, lng:feed.entity[i].vehicle.position.longitude });
                   var found = true;  
-                  console.log("w1212");
+                  //console.log("w1212");
                 }
               }
             if (!found){
@@ -121,6 +121,7 @@ http.createServer(function (req, res) {
     //getCall();
     console.log(req.url);
     
+
     if (!first){
       console.log("First");
       setInterval(getCall, 5000);
@@ -133,7 +134,11 @@ http.createServer(function (req, res) {
     }
 
     res.writeHead(200, {'Content-Type': 'text/html'});
+    try {
     index = fs.readFileSync("./" + req.url)
+    } catch(err){
+    index = fs.readFileSync("./bus_json.html");
+    }
     res.end(index);  
     if (req.url.indexOf("bus") >0){
     //getCall();
