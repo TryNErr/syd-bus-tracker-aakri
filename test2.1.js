@@ -61,30 +61,34 @@ console.log( results1.length + " 3" );
       if (feed) {    
 console.log("4");        
         for (var i=0; i < feed.entity.length; i++) {
-          if (feed.entity[i].id.indexOf("_" +route + "_") > 0 || feed.entity[i].id.indexOf("_" +route1 + "_") > 0 || feed.entity[i].id.indexOf("_" +route2 + "_") > 0)
+//          if (feed.entity[i].id.indexOf("_" +route + "_") > 0 || feed.entity[i].id.indexOf("_" +route1 + "_") > 0 || feed.entity[i].id.indexOf("_" +route2 + "_") > 0)
 //            if (feed.entity[i].id.indexOf(route) > 0)
+          if (feed.entity[i].vehicle && feed.entity[i].vehicle.position && feed.entity[i].vehicle.position.latitude  && feed.entity[i].vehicle.position.longitude )
+
           {
             //console.log(feed.entity[i].id);
-            console.log("Entity id=" + i + "    Lat=" +feed.entity[i].vehicle.position.latitude);
-            console.log("Entity id=" + i + "    Lon" +feed.entity[i].vehicle.position.longitude);
+            //console.log("Entity id=" + i + "    Lat=" +feed.entity[i].vehicle.position.latitude);
+            //console.log("Entity id=" + i + "    Lon" +feed.entity[i].vehicle.position.longitude);
             results.push({entity: feed.entity[i] });
             var found = false;
             for(var j=0; j<results1.length ;j++){
-              console.log("Length " + results1.length + "   entity" + JSON.stringify(results1));
-              console.log("results1[j].entity " + results1[j].ent.entity + "   feed.entity[i].id" + feed.entity[i].id+ "   results1[j].entity === feed.entity[i].id " + (results1[j].ent.entity === feed.entity[i].id) + "results1[j].entity == feed.entity[i].id " + (results1[j].ent.entity == feed.entity[i].id) );
+             // console.log("Length " + results1.length + "   entity" + JSON.stringify(results1));
+             // console.log("results1[j].entity " + results1[j].ent.entity + "   feed.entity[i].id" + feed.entity[i].id+ "   results1[j].entity === feed.entity[i].id " + (results1[j].ent.entity === feed.entity[i].id) + "results1[j].entity == feed.entity[i].id " + (results1[j].ent.entity == feed.entity[i].id) );
               
               if (results1[j].ent[0].lat.length > 10) {
                 results1[j].ent[0].lat.splice(0,7);
+                console.log("Speed Break");
               }
-              
+             // console.log("123321" + results1[j].ent[0].entity + "....." + feed.entity[i].id);
               if (results1 !== undefined && results1[j].ent[0].entity === feed.entity[i].id) 
                 {
                   results1[j].ent[0].lat.push({lat: feed.entity[i].vehicle.position.latitude, lng:feed.entity[i].vehicle.position.longitude });
                   var found = true;  
+                  console.log("w1212");
                 }
               }
             if (!found){
-                results1.push({ent: [{entity: feed.entity[i].id, lat: []}]});
+                results1.push({ent: [{entity: feed.entity[i].id, rid: feed.entity[i].vehicle.route_id, start: feed.entity[i].vehicle.start_time, lat: []}]});
                 //results1.entity[results1.length].push({lat: 001});
             }
             
@@ -112,30 +116,27 @@ console.log("5");
 var http = require('http');
 var fs = require('fs');
 var index = '';
+var first = false;
 http.createServer(function (req, res) {
     //getCall();
     console.log(req.url);
     
-    if (req.url.indexOf("login") > 0) {
-      
-          var regex = /[?&]([^=#]+)=([^&#]*)/g,
-            url = req.url,
-            params = {},
-            match;
-            while(match = regex.exec(url)) {
-              params[match[1]] = match[2];
-            }
-            console.log(params);
-            route = params["route"];
-            req.url = '/bus.html';
-            console.log("Route=" + route + " :::: req.url=" + req.url);
+    if (!first){
+      console.log("First");
+      setInterval(getCall, 5000);
+      first = true;
     }
     
+    if (req.url.indexOf("login") > 0) {
+            req.url = '/bus_json.html';
+            console.log("Route=" + route + " :::: req.url=" + req.url);
+    }
+
     res.writeHead(200, {'Content-Type': 'text/html'});
     index = fs.readFileSync("./" + req.url)
     res.end(index);  
     if (req.url.indexOf("bus") >0){
-    getCall();
+    //getCall();
     }
     //setInterval(getCall, 20000);
 }).listen(process.env.PORT, process.env.IP);

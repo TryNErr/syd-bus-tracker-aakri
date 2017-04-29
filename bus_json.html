@@ -16,7 +16,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWwHZikJsXbDwfx2AiimGeeQvbzEJwX1Q"></script>
 <script src="http://requirejs.org/docs/release/2.3.3/minified/require.js"></script>
-<script src="./fs.js"></script>
 
         <script type="text/javascript" >
 /* global google */
@@ -26,9 +25,21 @@
 var map;
 var infowindow = new google.maps.InfoWindow();
 
+
+function getURL() {
+            if (!window.location.search)
+              return null;
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars["route"];
+}
+
+
 function initialize() {
 
- 
+var inp = getURL(); 
 // var json1 = require('./feed.json'); 
  
  var json = (function() {
@@ -59,7 +70,16 @@ function initialize() {
         return json;
     })();
 
+/*var filteredJson = json1.posts.filter(function (row) {
+  if(row.entity.id.indexOf("_M54" > 0) ) {
+    return true
+  } else {
+    return false;
+  }
+});
 
+json1 = filteredJson;
+*/
   //  $.getJSON(json, function(json1) {
 
  var mapProp = {
@@ -73,58 +93,41 @@ function initialize() {
 
   $.each(json, function(key, data) {
 
+    var  lab = data.entity.vehicle.trip.route_id.split("_");
+    
+    if (inp === null || data.entity.vehicle.trip.route_id.indexOf(inp) > 0) {
+    
     var latLng = new google.maps.LatLng(data.entity.vehicle.position.latitude, data.entity.vehicle.position.longitude);
+
+    
 
     var marker = new google.maps.Marker({
       position: latLng,
       map: map,
       // icon: icon,
-      title: "Start Time: " + data.entity.vehicle.trip.start_time + "  " + data.entity.id
+      title: "Start Time: " + data.entity.vehicle.trip.start_time + "  " + data.entity.id,
+      label: lab[1]
     });
 
-    var details = ".";
+    var details = "Start Time: " + data.entity.vehicle.trip.start_time + "  " + data.entity.id;
     
-    // var flightPlanCoordinates = [
-    //       {lat: 37.772, lng: -122.214},
-    //       {lat: 21.291, lng: -157.821},
-    //       {lat: -18.142, lng: 178.431},
-    //       {lat: -27.467, lng: 153.027}
-    //     ];
-
-        
-    // var flightPlanCoordinates = json1[0].ent[0].lat;        
-    // var flightPath = new google.maps.Polyline({
-    //       path: flightPlanCoordinates,
-    //       geodesic: true,
-    //       strokeColor: '#FF0000',
-    //       strokeOpacity: 1.0,
-    //       strokeWeight: 2
-    //     });
-    //  flightPath.setMap(map);
-
-    // bindInfoWindow(marker, map, infowindow, details);
-
-    //    });
-  var str = ['red','blue','black','orange','brown','yellow','pink','gray'];
-  $.each(json1, function(key1, data1) {
-    if (data.entity.id == data1.ent[0].entity) {  
-        var flightPlanCoordinates = data1.ent[0].lat;        
-        var flightPath = new google.maps.Polyline({
-              path: flightPlanCoordinates,
-              geodesic: true,
-              strokeColor: str[key1%8],
-              strokeOpacity: 1.0,
-              strokeWeight: 2
-            });
-         flightPath.setMap(map);
-    
-        bindInfoWindow(marker, map, infowindow, details);
+    var str = ['red','blue','black','orange','brown','yellow','pink','gray'];
+    $.each(json1, function(key1, data1) {
+      if (data.entity.id == data1.ent[0].entity) {  
+          var flightPlanCoordinates = data1.ent[0].lat;        
+          var flightPath = new google.maps.Polyline({
+                path: flightPlanCoordinates,
+                geodesic: true,
+                strokeColor: str[key1%8],
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+              });
+          flightPath.setMap(map);
+          bindInfoWindow(marker, map, infowindow, details);
+      }
+    });
     }
   });
-
-
-  });
-
 }
 
 function bindInfoWindow(marker, map, infowindow, strDescription) {
@@ -138,9 +141,13 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
         </script>
         
-        <a href="bus.1.html">Dont Click here to change Route Number</a>
-        
-        <div id="map" style="border: 2px solid #3872ac;"></div>
+        <!--a href="bus.1.html">Click here to change Route Number</a -->
+        <form action="/login" method="GET" enctype="application/json">
+              <input type="text" name="route" id="loginEmail" class="form-control" placeholder="Enter your route">
+                        <button type="submit" name="login" class="btn btn-primary btn-block">Show Route Buses</button>
+          </form>
+                        <a href="/bus_json.html"><button type="submit1" name="login" class="btn btn-primary btn-block">Trace All Routes</button></a>
+          <div id="map" style="border: 2px solid #3872ac;"></div>
 
     </body>
 </html>
