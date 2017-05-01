@@ -75,8 +75,8 @@ console.log("4");
              // console.log("Length " + results1.length + "   entity" + JSON.stringify(results1));
              // console.log("results1[j].entity " + results1[j].ent.entity + "   feed.entity[i].id" + feed.entity[i].id+ "   results1[j].entity === feed.entity[i].id " + (results1[j].ent.entity === feed.entity[i].id) + "results1[j].entity == feed.entity[i].id " + (results1[j].ent.entity == feed.entity[i].id) );
               
-              if (results1[j].ent[0].lat.length > 10) {
-                results1[j].ent[0].lat.splice(0,7);
+              if (results1[j].ent[0].lat.length > 20) {
+                results1[j].ent[0].lat.splice(0,18);
                 //console.log("Speed Break");
               }
              // console.log("123321" + results1[j].ent[0].entity + "....." + feed.entity[i].id);
