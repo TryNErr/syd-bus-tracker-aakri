@@ -41,9 +41,9 @@ function getURL() {
 
 function initialize() {
 
-var inp = getURL(); 
-// var json1 = require('./feed.json'); 
- 
+var inp = getURL();
+// var json1 = require('./feed.json');
+
  var json = (function() {
         var json = null;
         $.ajax({
@@ -85,7 +85,7 @@ json1 = filteredJson;
   //  $.getJSON(json, function(json1) {
 
  var mapProp = {
-    center: new google.maps.LatLng(-33.7295, 150.9988), 
+    center: new google.maps.LatLng(-33.7295, 150.9988),
     zoom: 13,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
@@ -97,12 +97,12 @@ json1 = filteredJson;
 
     var  lab = data.entity.vehicle.trip.route_id.split("_");
 
-    
+
     if (inp === null || data.entity.vehicle.trip.route_id.indexOf(inp) > 0 || ( inp === "ALL" && (data.entity.vehicle.trip.route_id.indexOf('630') > 0 || data.entity.vehicle.trip.route_id.indexOf('546') > 0 ||data.entity.vehicle.trip.route_id.indexOf('619') > 0 ||data.entity.vehicle.trip.route_id.indexOf('M54') > 0 )  )) {
-    
+
     var latLng = new google.maps.LatLng(data.entity.vehicle.position.latitude, data.entity.vehicle.position.longitude);
 
-    
+
 
     var marker = new google.maps.Marker({
       position: latLng,
@@ -113,11 +113,11 @@ json1 = filteredJson;
     });
 
     var details = "Start Time: " + data.entity.vehicle.trip.start_time + "  " + data.entity.id;
-    
+
     var str = ['red','blue','black','orange','brown','yellow','pink','gray'];
     $.each(json1, function(key1, data1) {
-      if (data.entity.id == data1.ent[0].entity) {  
-          var flightPlanCoordinates = data1.ent[0].lat;        
+      if (data.entity.id == data1.ent[0].entity) {
+          var flightPlanCoordinates = data1.ent[0].lat;
           var flightPath = new google.maps.Polyline({
                 path: flightPlanCoordinates,
                 geodesic: true,
@@ -143,7 +143,7 @@ function bindInfoWindow(marker, map, infowindow, strDescription) {
 google.maps.event.addDomListener(window, 'load', initialize);
 
         </script>
-        
+
         <!--a href="bus.1.html">Click here to change Route Number</a -->
         <form action="/login" method="GET" enctype="application/json">
               <input type="text" name="route" id="loginEmail" class="form-control" placeholder="Enter your route">
@@ -155,6 +155,16 @@ google.maps.event.addDomListener(window, 'load', initialize);
               <a href="/login?route=546&login="><button type="submit3" name="login" class="btn btn-primary btn-block">546</button></a>
               <a href="/login?route=630&login="><button type="submit4" name="login" class="btn btn-primary btn-block">630</button></a>
               <a href="/bus_json.html"><button type="submit1" name="login" class="btn btn-primary btn-block">Trace All Routes</button></a>
+              <p>
+              <a href="https://citymapper.com/sydney/bus/stops/SydneyStop_ShowgroundRdBeforeRowallanAve_SE"><button type="submit1" name="login" class="btn btn-primary btn-block">RowallenSt Stop</button></a>
+              <a href="https://citymapper.com/sydney/bus/stops/SydneyStop_CastleHillStationStandZ_SW"><button type="submit1" name="login" class="btn btn-primary btn-block">Castle Hill Bus Stop</button></a>
+              <a href="https://citymapper.com/sydney/bus/stops/SydneyStop_WaterlooRdBeforeByfieldSt_NW_1"><button type="submit1" name="login" class="btn btn-primary btn-block">Khartoum Rd Bus Stop</button></a>
+              <a href="https://citymapper.com/sydney/bus/stops/SydneyStop_ShowgroundRdAfterCecilAve_NW_1"><button type="submit1" name="login" class="btn btn-primary btn-block">Cecil Ave Bus Stop</button></a>
+              </p>
+              <a href="https://citymapper.com/sydney/metro/stations/castle-hill"><button type="submit1" name="login" class="btn btn-primary btn-block">Khartoum Rd Bus Stop</button></a>
+              <a href="https://citymapper.com/sydney/metro/stations/macquarie-park"><button type="submit1" name="login" class="btn btn-primary btn-block">Cecil Ave Bus Stop</button></a>
+
+
           <div id="map" style="border: 2px solid #3872ac;"></div>
 
     </body>
